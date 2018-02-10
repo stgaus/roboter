@@ -16,21 +16,21 @@ def motor_setup():
   pi.set_mode( M2_2, pigpio.OUTPUT)
   pi.set_mode( M2_3, pigpio.OUTPUT)
   
-def motor_forward():
-  pi.set_PWM_frequency(M1_1, [frequency])
+def motor_forward(frequency):
+  pi.set_PWM_frequency(M1_1, frequency)
   pi.write(M1_2, 1)
   pi.write(M1_3, 0)
   
-  pi.set_PWM_frequency(M2_1, [frequency])
+  pi.set_PWM_frequency(M2_1, frequency)
   pi.write(M2_2, 1)
   pi.write(M2_3, 0)
   
-def motor_backward():
-  pi.set_PWM_frequency(M1_1, [frequency])
+def motor_backward(frequency):
+  pi.set_PWM_frequency(M1_1, frequency)
   pi.write(M1_2, 0)
   pi.write(M1_3, 1)
   
-  pi.set_PWM_frequency(M2_1, [frequency])
+  pi.set_PWM_frequency(M2_1, frequency)
   pi.write(M2_2, 0)
   pi.write(M2_3, 1)
   
@@ -43,8 +43,8 @@ def motor_stop():
   pi.write(M2_2, 1)
   pi.write(M2_3, 1)
   
-def motor_left():
-  pi.set_PWM_frequency(M1_1, [frequency])
+def motor_left(frequency):
+  pi.set_PWM_frequency(M1_1, frequency)
   pi.write(M1_2, 0)
   pi.write(M1_3, 1)
   
@@ -52,11 +52,11 @@ def motor_left():
   pi.write(M2_2, 0)
   pi.write(M2_3, 0)
 
-def motor_right():
+def motor_right(frequency):
   pi.set_PWM_frequency(M1_1, 0)
   pi.write(M1_2, 0)
   pi.write(M1_3, 0)
   
-  pi.set_PWM_frequency(M2_1, [frequency])
+  pi.set_PWM_frequency(M2_1, frequency)
   pi.write(M2_2, 0)
   pi.write(M2_3, 1)
