@@ -9,12 +9,12 @@ M2_2 = [GPIO 5]
 M2_3 = [GPIO 6]
 
 def motor_setup():
-  pi.set_mode( M1_1, pigpio.OUTPUT)
-  pi.set_mode( M1_2, pigpio.OUTPUT)
-  pi.set_mode( M1_3, pigpio.OUTPUT)
-  pi.set_mode( M2_1, pigpio.OUTPUT)
-  pi.set_mode( M2_2, pigpio.OUTPUT)
-  pi.set_mode( M2_3, pigpio.OUTPUT)
+  pi.set_mode(M1_1, pigpio.OUTPUT)
+  pi.set_mode(M1_2, pigpio.OUTPUT)
+  pi.set_mode(M1_3, pigpio.OUTPUT)
+  pi.set_mode(M2_1, pigpio.OUTPUT)
+  pi.set_mode(M2_2, pigpio.OUTPUT)
+  pi.set_mode(M2_3, pigpio.OUTPUT)
   
 def motor_forward(frequency):
   pi.set_PWM_frequency(M1_1, frequency)
