@@ -1,0 +1,15 @@
+#Tier eingeben
+#Kamera und Infrarot-Sensoren starten
+#Antrieb starten
+#Wenn der Roboter vom Weg abkommt, sollen sich die Infrarot-Sensoren melden, dass sie die schwarze Linie sehen
+#Wenn links die schwarze Linie sieht, muss nur rechts angetrieben werden
+#Wenn rechts die schwarze Linie sieht, muss nur links angetrieben werden
+#Wenn die Kamera das gesuchte Tier sieht, muss der Roboter sich so ausrichten, dass sich das Tier in der Mitte der Kamera befindet
+#So wird sichergestellt, dass der Greifmechanismus das Tier greifen kann
+#Anschließend wird der Greifmechanismus ausgefahren werden
+#Schieber umklappen, der sich dann hinter dem Tier im Regal befindet
+#Mechanismus wieder einfahren und das Tier mit dem Schieber auf eine am Roboter angebrachte Plattform schieben
+#Antrieb wieder starten, gemeinsam mit den Infrator-Sensoren
+#Fahren bis beide Infrarot-Sensoren die schwarze Linie gleichzeitig sehen --> Ziel erreicht
+#Anschließend noch ein bisschen weiterfahren (Entweder über Sekunden oder wenn die schwarze Linie wieder gesehen wird)
+#Greifmechanismus wieder ausfahren und mit einem zweiten Schieber das Tier von der Plattform schieben
