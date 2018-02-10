@@ -1,0 +1,25 @@
+line_follow_left = [GPIO 1]
+line_follow_right = [GPIO 2]
+
+def ir_setup():
+  pi.set_mode(line_follow_left, pigpio.INPUT)
+  pi.set_mode(line_follow_right, pigpio.INPUT)
+  
+while True:
+  irL = pi.read(line_follow_left)
+  ifR = pi.read(line_follow_right)
+  
+  #Wenn das Ziel erreicht ist
+  if(irL == 0 and irR == 0)
+    antrieb.motor_forward([frequency])
+    t = Timer([Sekunden], antrieb.stop())
+    t.start()
+    #Auslade-Prozess starten
+  
+  #Wenn nur der linke Sensor die Linie sieht
+  elseif(irL == 0)
+    antrieb.motor_right([frequency])
+  
+  #Wenn nur der rechte Sensor die Linie sieht
+  elseif(irR == 0)
+    antrieb.motor_left([frequency])
