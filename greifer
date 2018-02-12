@@ -1,0 +1,34 @@
+import pigpio as pi
+import time
+
+M3_1 = [GPIO 1]
+M3_2 = [GPIO 2]
+M3_3 = [GPIO 3]
+
+servo = [GPIO 4]
+
+def motor_setup():
+  pi.set_mode(M3_1, pigpio.OUTPUT)
+  pi.set_mode(M3_2, pigpio.OUTPUT)
+  pi.set_mode(M3_3, pigpio.OUTPUT)
+  
+  pi.set_mode(servo, pigpio.OUTPUT)
+  
+def ausfahren(frequency):
+  pi.set_PWM_frequency(M3_1, frequency)
+  pi.write(M3_2, 1)
+  pi.write(M3_3, 0)
+
+def einfahren(frequency):
+  pi.set_PWM_frequency(M3_1, frequency)
+  pi.write(M3_2, 1)
+  pi.write(M3_3, 0)
+  
+def servomotor():
+  p = pi.set_PWM_frequency(servo, 50)
+  t_end = time.time() + 3
+  while time.time() < t_end:
+    p.set_PWM_dutycycle(servo, 2,5)
+    time.sleep(1)
+  p.stop()
+    
