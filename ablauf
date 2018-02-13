@@ -13,3 +13,57 @@
 #Fahren bis beide Infrarot-Sensoren die schwarze Linie gleichzeitig sehen --> Ziel erreicht
 #Anschließend noch ein bisschen weiterfahren (Entweder über Sekunden oder wenn die schwarze Linie wieder gesehen wird)
 #Greifmechanismus wieder ausfahren und mit einem zweiten Schieber das Tier von der Plattform schieben
+
+#Funktion für die Anfangsfahrt
+while True:
+	motor_forward([duty])
+	
+	#scannt für Tier
+	#beendet Schleife, wenn Tier gefunden wird
+	#Führt Funktion für den Greifarm aus
+	
+	ir = infrared.irsensors()
+
+	if(ir == "none")
+		
+	elif(ir == "left")
+		motor_right([duty])
+	elif(ir == "right")
+		motor_left([duty])
+
+
+#Funktion für den Greifarm
+t_end = time.time() + [Zeit]
+
+while time.time() < t_end():
+	greifer.ausfahren([duty])
+
+greifer.servomotor("down")
+
+while time.time() < t_end():
+	greifer.einfahren([duty])
+
+#Anschließend Funktion für Weiterfahren ausführen
+
+#Funktion für Weiterfahren
+while True:
+	motor_forward([duty])
+
+	ir = infrared.irsensors()
+
+	if(ir == "none")
+
+	elif(ir == "left")
+		motor_right([duty])
+
+	elif(ir == "right")
+		motor_left([duty])
+
+	elif(ir == "both")
+		t_end = time.time + [Zeit]
+		
+		motor_stop()
+
+		greifer.ausfahren([duty])
+
+		greifer.servomotor("up")
