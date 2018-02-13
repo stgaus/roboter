@@ -14,6 +14,8 @@
 #Anschließend noch ein bisschen weiterfahren (Entweder über Sekunden oder wenn die schwarze Linie wieder gesehen wird)
 #Greifmechanismus wieder ausfahren und mit einem zweiten Schieber das Tier von der Plattform schieben
 
+##############################
+
 #Funktion für die Anfangsfahrt
 while True:
 	motor_forward([duty])
@@ -27,10 +29,25 @@ while True:
 	if(ir == "none")
 		
 	elif(ir == "left")
-		motor_right([duty])
+		while True:
+			motor_right([duty])
+			
+			ir2 = infrared.irsensors()
+			
+			if(ir2 == "none")
+				break
+		#Funktion für die Anfangsfahrt
 	elif(ir == "right")
-		motor_left([duty])
+		while True:
+			motor_left([duty])
+			
+			ir2 = infrared.irsensors()
+			
+			if(ir2 == "none")
+				break
+		#Funktion für die Anfangsfahrt
 
+##############################
 
 #Funktion für den Greifarm
 t_end = time.time() + [Zeit]
@@ -45,6 +62,8 @@ while time.time() < t_end():
 
 #Anschließend Funktion für Weiterfahren ausführen
 
+##############################
+
 #Funktion für Weiterfahren
 while True:
 	motor_forward([duty])
@@ -54,10 +73,23 @@ while True:
 	if(ir == "none")
 
 	elif(ir == "left")
-		motor_right([duty])
-
+		while True:
+			motor_right([duty])
+			
+			ir2 = infrared.irsensors()
+			
+			if(ir2 == "none")
+				break
+		#Funktion für die Weiterfahrt aufrufen
 	elif(ir == "right")
-		motor_left([duty])
+		while True:
+			motor_left([duty])
+			
+			ir2 = infrared.irsensors()
+			
+			if(ir2 == "none")
+				break
+		#Funktion für die Anfangsfahrt aufrufen
 
 	elif(ir == "both")
 		t_end = time.time + [Zeit]
