@@ -33,4 +33,3 @@ def servomotor():
     p.set_PWM_dutycycle(servo, 2,5)
     time.sleep(1)
   p.stop()
-    
