@@ -26,6 +26,11 @@ def einfahren(duty):
   pi.write(M3_2, 1)
   pi.write(M3_3, 0)
   
+def stop():
+  pi.set_PWM_dutycycle(M3_1, 0)
+  pi.write(M3_2, 1)
+  pi.write(M3_3, 1)
+  
 def servomotor(position):
   p = pi.set_PWM_frequency(servo, 50)
   t_end = time.time() + 3
