@@ -17,85 +17,101 @@
 ##############################
 
 #Funktion für die Anfangsfahrt
-while True:
-	motor_forward([duty])
-	
-	#scannt für Tier
-	#beendet Schleife, wenn Tier gefunden wird
-	#Führt Funktion für den Greifarm aus
-	
-	ir = infrared.irsensors()
+def anfangsfahrt():
+	while True:
+		motor_forward([duty])
 
-	if(ir == "none")
-		
-	elif(ir == "left")
-		while True:
-			motor_right([duty])
-			
-			ir2 = infrared.irsensors()
-			
-			if(ir2 == "none")
-				break
-		#Funktion für die Anfangsfahrt
-	elif(ir == "right")
-		while True:
-			motor_left([duty])
-			
-			ir2 = infrared.irsensors()
-			
-			if(ir2 == "none")
-				break
-		#Funktion für die Anfangsfahrt
+		#scannt für Tier
+		#beendet Schleife, wenn Tier gefunden wird
+		#Funktion für Greifen ausführen
+
+		ir = infrared.irsensors()
+
+		if(ir == "none")
+
+		elif(ir == "left")
+			while True:
+				motor_right([duty])
+
+				ir2 = infrared.irsensors()
+
+				if(ir2 == "none")
+					break
+			ablauf.anfangsfahrt()
+		elif(ir == "right")
+			while True:
+				motor_left([duty])
+
+				ir2 = infrared.irsensors()
+
+				if(ir2 == "none")
+					break
+			ablauf.anfangsfahrt()
 
 ##############################
 
 #Funktion für den Greifarm
-t_end = time.time() + [Zeit]
+def greifen():
+	t_greifer = time.time() + [Zeit]
 
-while time.time() < t_end():
-	greifer.ausfahren([duty])
+	while time.time() < t_greifer():
+		greifer.ausfahren([duty])
 
-greifer.servomotor("down")
+	greifer.servomotor("down")
 
-while time.time() < t_end():
-	greifer.einfahren([duty])
+	while time.time() < t_greifer():
+		greifer.einfahren([duty])
 
 #Anschließend Funktion für Weiterfahren ausführen
 
 ##############################
 
 #Funktion für Weiterfahren
-while True:
-	motor_forward([duty])
+def weiterfahren():
+	while True:
+		motor_forward([duty])
 
-	ir = infrared.irsensors()
+		ir = infrared.irsensors()
 
-	if(ir == "none")
+		if(ir == "none")
 
-	elif(ir == "left")
-		while True:
-			motor_right([duty])
+		elif(ir == "left")
+			while True:
+				motor_right([duty])
+
+				ir2 = infrared.irsensors()
+
+				if(ir2 == "none")
+					break
+			#Funktion für die Weiterfahrt aufrufen
+		elif(ir == "right")
+			while True:
+				motor_left([duty])
+
+				ir2 = infrared.irsensors()
+
+				if(ir2 == "none")
+					break
+			#Funktion für die Anfangsfahrt aufrufen
+
+		elif(ir == "both")
+			t_end = time.time() + [Zeit]
 			
-			ir2 = infrared.irsensors()
-			
-			if(ir2 == "none")
-				break
-		#Funktion für die Weiterfahrt aufrufen
-	elif(ir == "right")
-		while True:
-			motor_left([duty])
-			
-			ir2 = infrared.irsensors()
-			
-			if(ir2 == "none")
-				break
-		#Funktion für die Anfangsfahrt aufrufen
+			while time.time() < t_end:
+				motor.forward([duty])
 
-	elif(ir == "both")
-		t_end = time.time + [Zeit]
-		
-		motor_stop()
-
-		greifer.ausfahren([duty])
-
-		greifer.servomotor("up")
+			motor_stop()
+			
+			t_greifer = time.time() + [Zeit]
+			
+			while time.time() < t_greifer:
+				greifer.ausfahren([duty])
+			
+			greifer.stop()
+			
+			greifer.servomotor("up")
+			
+			while time.time() < t_greifer:
+				greifer.einfahren([duty])
+			
+			greifer.stop()
