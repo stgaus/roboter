@@ -50,8 +50,8 @@ class antrieb():
 
   def motor_left(duty):
     pi.set_PWM_dutycycle(self.M1_1, duty)
-    pi.write(self.M1_2, 0)
-    pi.write(self.M1_3, 1)
+    pi.write(self.M1_2, 1)
+    pi.write(self.M1_3, 0)
 
     pi.set_PWM_dutycycle(self.M2_1, 0)
     pi.write(self.M2_2, 0)
@@ -63,5 +63,5 @@ class antrieb():
     pi.write(self.M1_3, 0)
 
     pi.set_PWM_dutycycle(self.M2_1, duty)
-    pi.write(self.M2_2, 0)
-    pi.write(self.M2_3, 1)
+    pi.write(self.M2_2, 1)
+    pi.write(self.M2_3, 0)
