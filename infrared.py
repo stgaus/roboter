@@ -1,16 +1,16 @@
 class infrared():
-  
-  line_follow_left = [GPIO 1]
-  line_follow_right = [GPIO 2]
 
   def __init__(self):
+    line_follow_left = [GPIO 1]
+    line_follow_right = [GPIO 2]
+    
     pi.set_mode(line_follow_left, pigpio.INPUT)
     pi.set_mode(line_follow_right, pigpio.INPUT)
     pi.setwarnings(False)
 
   def irsensors():
-    irL = pi.read(line_follow_left)
-    irR = pi.read(line_follow_right)
+    irL = pi.read(self.line_follow_left)
+    irR = pi.read(self.line_follow_right)
 
     none = "none"
     both = "both"
