@@ -19,8 +19,6 @@
 #Funktion für die Anfangsfahrt
 def anfangsfahrt():
 	while True:
-		motor_forward([duty])
-
 		#scannt für Tier
 		#beendet Schleife, wenn Tier gefunden wird
 		#Funktion für Greifen ausführen
@@ -28,25 +26,13 @@ def anfangsfahrt():
 		ir = infrared.irsensors()
 
 		if(ir == "none")
-
+			motor_forward([duty])
+			
 		elif(ir == "left")
-			while True:
-				motor_right([duty])
-
-				ir2 = infrared.irsensors()
-
-				if(ir2 == "none")
-					break
-			ablauf.anfangsfahrt()
+			motor_right([duty])
+			
 		elif(ir == "right")
-			while True:
-				motor_left([duty])
-
-				ir2 = infrared.irsensors()
-
-				if(ir2 == "none")
-					break
-			ablauf.anfangsfahrt()
+			motor_left([duty])
 
 ##############################
 
@@ -69,30 +55,17 @@ def greifen():
 #Funktion für Weiterfahren
 def weiterfahren():
 	while True:
-		motor_forward([duty])
-
+		
 		ir = infrared.irsensors()
 
 		if(ir == "none")
-
+			motor_forward([duty])
+			
 		elif(ir == "left")
-			while True:
-				motor_right([duty])
+			motor_right([duty])
 
-				ir2 = infrared.irsensors()
-
-				if(ir2 == "none")
-					break
-			#Funktion für die Weiterfahrt aufrufen
 		elif(ir == "right")
-			while True:
-				motor_left([duty])
-
-				ir2 = infrared.irsensors()
-
-				if(ir2 == "none")
-					break
-			#Funktion für die Anfangsfahrt aufrufen
+			motor_left([duty])
 
 		elif(ir == "both")
 			t_end = time.time() + [Zeit]
