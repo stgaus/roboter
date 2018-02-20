@@ -34,15 +34,14 @@ class greifer():
     pi.write(self.M3_3, 1)
 
   def servomotor(position):
-    p = pi.set_PWM_frequency(self.servo, 50)
     t_end = time.time() + 3
 
     if position == "up"
       while time.time() < t_end:
-        p.set_PWM_dutycycle(self.servo, 12,5)
+        pi.set_servo_pulsewidth(self.servo, 1500)
         time.sleep(1)
-        p.stop()
+        pi.stop()
      elif position == "down"
-        p.set_PWM_dutycycle(self.servo, 2,5)
+        pi.set_servo_pulsewidth(self.servo, 1000)
         time.sleep(1)
-        p.stop()
+        pi.stop()
