@@ -1,4 +1,6 @@
 class infrared():
+  
+  pi = pigpio.pi()
 
   def __init__(self):
     line_follow_left = [GPIO 1]
