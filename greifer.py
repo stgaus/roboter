@@ -2,6 +2,8 @@ import pigpio as pi
 import time
 
 class greifer():
+  
+  pi = pigpio.pi()
 
   def __init__(self):
     M3_1 = [GPIO 1]
