@@ -1,0 +1,6 @@
+class consts():
+
+    IMG_WIDTH = 800
+    IMG_HEIGHT = 400
+    CENTER_TOLERANCE = 7
+    DISTANCE_FOR_CLOSE_CONTOURS = 60
