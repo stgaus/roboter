@@ -13,12 +13,12 @@ class FrameEditor():
     def __init__(self, frame):
         self.frame = frame
 
-    def resize_frame(self, w, h):
+    def resize_frame(self, w, h, animalRange):
+        self.frame = cv2.resize(self.frame, (w, h))
         cut_left = int (round((w/8), 0))
         cut_right = int (round((w/8), 0))
-        cut_top = int (round((h/4), 0))
-        cut_bottom = int (round((h/14), 0))
-        self.frame = cv2.resize(self.frame, (w, h))
+        cut_top = int (round((h*animalRange[1]), 0))
+        cut_bottom = int (round((h/14), 0))        
         self.frame = self.frame[cut_top:h-cut_bottom, cut_left:w-cut_right]
         self.width = w - (cut_left + cut_right)
         self.height = h - (cut_top + cut_bottom)
@@ -29,15 +29,6 @@ class FrameEditor():
         if self.frame is not None:
             self.hsvFrame = cv2.cvtColor(self.frame, cv2.COLOR_BGR2HSV)
         return self.hsvFrame
-    
-    def draw_circle(self, x, y, radius, center):
-        # only proceed if the radius meets a minimum size
-        if radius > 10:
-            # draw the circle and centroid on the frame,
-            # then update the list of tracked points
-            cv2.circle(self.frame, (int(x), int(y)), int(radius),
-                       (0, 255, 255), 2)
-            cv2.circle(self.frame, center, 5, (0, 0, 255), -1)
 
     def draw_rectangle(self, x, y, w, h):
         if x != None and y != None and w != None and h != None:
@@ -47,7 +38,6 @@ class FrameEditor():
         for i in range(1, len(points)):
             if points[i - 1] is None or points[i] is None:
                 continue
-            # draw the connecting lines
             cv2.line(self.frame, points[i - 1], points[i], (0, 0, 255), 1)
 
     def blur(self):
@@ -56,6 +46,10 @@ class FrameEditor():
         self.frame = cv2.medianBlur(self.frame,7)
         #bilateralFilter(src, pixel neighborhood, sigmaColor, sigmaSpace) -->Härtere Kanten, aber langsamer
         #img = cv2.bilateralFilter(frameEdit.frame,14,100,75)
+        return self.frame
+
+    def combine_frame_and_mask(self, mask):
+        self.frame = cv2.bitwise_and(self.frame, self.frame, mask=mask)
         return self.frame
 
     def draw_center_line(self):

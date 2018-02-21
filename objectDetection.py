@@ -8,6 +8,7 @@ from colorScanner import ColorScanner
 from frameEditor import FrameEditor
 from animalType import AnimalType
 from animal import Animal, Frog, Tomato, Tiger, Turtle, Dino
+from Consts import consts
 import signal
 import time
 
@@ -28,9 +29,6 @@ class ObjectDetection():
                         self.animal = Tiger()
 
         def search_animal(self):
-
-                # Start time
-                start = time.time()
                 # construct the Video(webCam, path, buffer)
                 #vid = Video(True, '', 64)
                 vid = Video(False, 'test.h264', 64)
@@ -46,7 +44,10 @@ class ObjectDetection():
                 else:
                         camera = cv2.VideoCapture(vid.path)
 
-                while True:
+                # Start time
+                start = time.time()
+                couuunt=0
+                while True: #couuunt < 200:
                         
                         # grab the current frame                        
                         (grabbed, frame) = camera.read()
@@ -57,7 +58,7 @@ class ObjectDetection():
                                 break
 
                         frameEdit = FrameEditor(frame)
-                        frame = frameEdit.resize_frame(800, 400)
+                        frame = frameEdit.resize_frame(consts.IMG_WIDTH, consts.IMG_HEIGHT, self.animal.imageRange)
                         frameEdit.blur()
 
                         img_hsv = frameEdit.convert_to_HSV()
@@ -65,37 +66,30 @@ class ObjectDetection():
                         mask = colorScanner.get_mask(img_hsv, self.animal.minColorLimit_second, self.animal.maxColorLimit_second, self.animal.dilateAmount)
 
                         #combine image and mask to show color on mask
-                        frameEdit.frame = cv2.bitwise_and(frameEdit.frame, frameEdit.frame, mask=mask)
+                        frameEdit.combine_frame_and_mask(mask)
 
-                        # find contours in the mask
-                        contours = colorScanner.find_contours(mask)                        
+                        contours = colorScanner.find_contours(mask)
+                        
+                        cont = colorScanner.unify_contours()
 
                         #drawContours(image, contours, contourIdx ->| if negative, all contours are drawn |, color, thickness)
-                        cv2.drawContours(frameEdit.frame, contours, -1, (255, 255, 0), 1)
-                        
-                        cont = colorScanner.unify_contours()                        
+                        cv2.drawContours(frameEdit.frame, cont, -1, (255, 255, 0), 2)
 
                         x, y, w, h = cv2.boundingRect(cont)
                         # draw a green rectangle to visualize the bounding rect
                         cv2.rectangle(frameEdit.frame, (x, y), (x+w, y+h), (0, 255, 0), 2)
-                       
-                        if x > self.animal.imageRange[0] and y > self.animal.imageRange[1]:                                
-                                if w > self.animal.boundingRectangleSize[0] and h > self.animal.boundingRectangleSize[1]:
-                                        print(self.animal.name + " is coming")
-                                        if x + w/2 > (frameEdit.center[0] - 7) and x + w/2 < (frameEdit.center[0] + 7):
-                                                print("i found " + self.animal.name)
-                                                time.sleep(1)
-                                else:
-                                        if w > 30 and h > 30:
-                                                print("maybe " + self.animal.name + " on the screen")
-
+                                                      
+                        if self.is_animal_on_screen(frameEdit.width, frameEdit.height, w, h):
+                                print(self.animal.name + " is coming")
+                                if self.is_animal_in_center(frameEdit.center[0], (x + w/2)):
+                                        print("i found " + self.animal.name)
+                                        time.sleep(0.5)
                         
                         frameEdit.draw_center_line()
-                        frameEdit.draw_line(((0, self.animal.imageRange[1]), (frameEdit.width, self.animal.imageRange[1])), vid.buffer)
                         
                         cv2.imshow("Frame", frameEdit.frame)
                         cv2.imshow("Tresh", frame)
-                        #cv2.imshow("Thresh", mask)
+                        couuunt+= 1
                         
                         key = cv2.waitKey(1) & 0xFF                        
 
@@ -106,5 +100,27 @@ class ObjectDetection():
                 # cleanup the camera and close any open windows
                 camera.release()
                 cv2.destroyAllWindows()
+
+                
+                # End time
+                end = time.time()
+
+                # Time elapsed
+                seconds = end - start
+                print("Time taken : {0} seconds".format(seconds))
+                         
+                # Calculate frames per second
+                fps  = couuunt / seconds;
+                print("Estimated frames per second : {0}".format(fps))
+
+        def is_animal_on_screen(self, frame_width, frame_height, rect_w, rect_h):
+                if rect_w > (frame_width * self.animal.boundingRectangleSize[0]) and rect_h > (frame_height * self.animal.boundingRectangleSize[1]):
+                        return True
+                return False
+
+        def is_animal_in_center(self, frame_center, rect_horizontal_center):
+                if rect_horizontal_center > (frame_center - consts.CENTER_TOLERANCE) and rect_horizontal_center < (frame_center + consts.CENTER_TOLERANCE):
+                        return True
+                return False
                         
 
