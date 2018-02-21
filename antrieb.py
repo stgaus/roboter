@@ -1,7 +1,9 @@
-#import PIGPIO
+import PIGPIO
 
 class antrieb():
-
+    
+  pi = pigpio.pi()
+    
   def __init__(self):
     M1_1 = [GPIO 1]
     M1_2 = [GPIO 2]
