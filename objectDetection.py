@@ -81,9 +81,12 @@ class ObjectDetection():
                                                       
                         if self.is_animal_on_screen(frameEdit.width, frameEdit.height, w, h):
                                 print(self.animal.name + " is coming")
+                                #return 1
                                 if self.is_animal_in_center(frameEdit.center[0], (x + w/2)):
                                         print("i found " + self.animal.name)
                                         time.sleep(0.5)
+                                        #return 2
+                        #else return 0
                         
                         frameEdit.draw_center_line()
                         
