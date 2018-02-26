@@ -43,7 +43,7 @@ class FrameEditor():
     def blur(self):
         #GaussianBlur(src, (width, height ->odd), sigmaX)
         #frame = cv2.GaussianBlur(frameEdit.frame, (17, 17), 0)
-        self.frame = cv2.medianBlur(self.frame,7)
+        self.frame = cv2.medianBlur(self.frame,5)
         #bilateralFilter(src, pixel neighborhood, sigmaColor, sigmaSpace) -->Härtere Kanten, aber langsamer
         #img = cv2.bilateralFilter(frameEdit.frame,14,100,75)
         return self.frame
