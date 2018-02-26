@@ -18,7 +18,7 @@ class FrameEditor():
         cut_left = int (round((w/8), 0))
         cut_right = int (round((w/8), 0))
         cut_top = int (round((h*animalRange[1]), 0))
-        cut_bottom = int (round((h/14), 0))        
+        cut_bottom = int (round((h/16), 0))        
         self.frame = self.frame[cut_top:h-cut_bottom, cut_left:w-cut_right]
         self.width = w - (cut_left + cut_right)
         self.height = h - (cut_top + cut_bottom)

@@ -31,9 +31,9 @@ class Tiger(Animal):
         Animal.name = "Tiger"
         Animal.minColorLimit = (14, 90, 70)
         Animal.maxColorLimit = (18, 200, 140)
-        Animal.boundingRectangleSize = (0.15, 0.8) #(100, 150)
+        Animal.boundingRectangleSize = (0.2, 0.9) #(100, 150)
         Animal.imageRange = (0, 0.4)#in decimal percent
-        Animal.dilateAmount = 12
+        Animal.dilateAmount = 10
 
 class Dino(Animal):
 
@@ -41,9 +41,10 @@ class Dino(Animal):
         Animal.__init__(self)
         Animal.name = "Dino"
         Animal.minColorLimit = (100, 70, 0)
-        Animal.maxColorLimit = (120, 200, 100) #->s runter ->Done alt:255        Animal.boundingRectangleSize =  (0.1, 0.7) #(70, 100) 
+        Animal.maxColorLimit = (120, 200, 100) #->s runter ->Done alt:255        Animal.boundingRectangleSize =  (0.1, 0.7) #(70, 100)
+        Animal.boundingRectangleSize = (0.1, 0.7) #(100, 150)
         Animal.imageRange = (0, 0.5)#in decimal percent
-        Animal.dilateAmount = 15
+        Animal.dilateAmount = 13
         #minLimit = np.array([100, 30, 0])
         #maxLimit = np.array([120, 255, 255])
 
@@ -66,12 +67,12 @@ class Turtle(Animal):
     def __init__(self):
         Animal.__init__(self)
         Animal.name = "Turtle"
-        Animal.minColorLimit = (0, 15, 65)
-        Animal.maxColorLimit = (10, 115, 190)
-        #Animal.minColorLimit = (0, 12, 150)
-        #Animal.maxColorLimit = (10, 45, 190)
-        #Animal.minColorLimit_second = (5, 70, 50)
-        #Animal.maxColorLimit_second = (15, 140, 145)
+        #Animal.minColorLimit = (0, 15, 65)
+        #Animal.maxColorLimit = (10, 115, 190)
+        Animal.minColorLimit = (20, 40, 90)
+        Animal.maxColorLimit = (30, 65, 130)
+        Animal.minColorLimit_second = (5, 65, 55)
+        Animal.maxColorLimit_second = (25, 135, 95)
         #RGB-WERTE:
         #Animal.minColorLimit = (30, 35, 80) 
         #Animal.maxColorLimit = (80, 95, 135)
