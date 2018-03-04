@@ -1,6 +1,6 @@
 import cv2
 import numpy as np
-from Consts import consts
+from consts import Consts
 
 class ColorScanner():
     
@@ -33,7 +33,7 @@ class ColorScanner():
         for i in range(row1):
             for j in range(row2):
                 dist = np.linalg.norm(cnt1[i]-cnt2[j])
-                if abs(dist) < consts.DISTANCE_FOR_CLOSE_CONTOURS :
+                if abs(dist) < Consts.DISTANCE_FOR_CLOSE_CONTOURS :
                     return True
                 elif i==row1-1 and j==row2-1:
                     return False

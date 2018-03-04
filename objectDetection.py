@@ -32,7 +32,7 @@ class ObjectDetection():
                 # construct the Video(webCam, path, buffer)
                 #vid = Video(True, '', 64)
                 vid = Video(False, 'test.h264', 64)
-                #vid = Video(False, 'test-video2.mp4', 64)
+                #vid = Video(False, 'test-video1.mp4', 64)
                         
                 colorScanner = ColorScanner(self.animal.minColorLimit, self.animal.maxColorLimit)
 
