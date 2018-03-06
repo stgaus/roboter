@@ -1,6 +1,7 @@
 #import pigpio
 from ir_signal import Ir_signal
 from antrieb import Antrieb
+from consts import Consts
 
 class Infrared():
 
@@ -8,7 +9,9 @@ class Infrared():
     motor = None
     signal_left = Ir_signal.White.value
     signal_right = Ir_signal.White.value
-#    line_follow_left = [GPIO 1]
+    old_tick_right = 0
+    old_tick_left = 0
+#    line_follow_left = 22
 #    line_follow_right = [GPIO 2]
     demo_counter = 0
 
@@ -53,58 +56,35 @@ class Infrared():
 
     def ir_signal_changed_left(self, gpio, level, tick):
         print("ir signal changed left")
+        if (self.old_tick_left + Consts.TIME_TO_LAST_IR_TICK) < tick:
+            if level == Ir_signal.Black.value:
+                self.signal_left = Ir_signal.Black.value
+                if self.signal_right == Ir_signal.Black.value:
+                    print("reached target")
+                else:
+                    print("drive to left")
+                    self.motor.motor_right([duty])
 
-        if level == Ir_signal.Black.value:
-            self.signal_left = Ir_signal.Black.value
-            if self.signal_right == Ir_signal.Black.value:
-                print("reached target")
-                #Zielfunktion ausführen ->unnötig, wenn am Ende ir gelesen wird
-            else:
-                print("drive to left")
-                self.motor.motor_right([duty])
-
-        elif level == Ir_signal.White.value:
-            self.signal_left = Ir_signal.White.value
-            print("drive forward")
-            self.motor.motor_forward([duty])
+            elif level == Ir_signal.White.value:
+                self.signal_left = Ir_signal.White.value
+                print("drive forward")
+                self.motor.motor_forward([duty])
+            old_tick_left = tick            
 
     def ir_signal_changed_right(self, gpio, level, tick):
         print("ir signal changed right")
+        if (self.old_tick_right + Consts.TIME_TO_LAST_IR_TICK) < tick:
+            if level == Ir_signal.Black.value:
+                self.signal_right = Ir_signal.Black.value
+                if self.signal_left == Ir_signal.Black.value:
+                    print("reached target")
+                else:
+                    print("drive to right")
+                    self.motor.motor_left([duty])
 
-        if level == Ir_signal.Black.value:
-            self.signal_right = Ir_signal.Black.value
-            if self.signal_left == Ir_signal.Black.value:
-                print("reached target")
-                #Zielfunktion ausführen ->unnötig, wenn am Ende ir gelesen wird
-            else:
-                print("drive to right")
-                self.motor.motor_left([duty])
-
-        elif level == Ir_signal.White.value:
-            self.signal_right= Ir_signal.White.value
-            print("drive forward")
-            self.motor.motor_forward([duty])
-
-    def ir_demo():
-        pi=pigpio.pi()
-
-        pi.set_mode(18, pigpio.INPUT)
-
-        t_end = time.time() + 20
-
-        reflektion = 0
-        kreflektion = 0
-
-        while time.time() < t_end:
-
-            ir = pi.read(18)
-
-            if(ir == 1):
-                print("Reflektion")
-                reflektion = reflektion + 1
-            elif(ir == 0):
-                print("Keine Reflektion")
-                kreflektion = kreflektion + 1
-                
-        print(reflektion)
-        print(kreflektion)
+            elif level == Ir_signal.White.value:
+                self.signal_right= Ir_signal.White.value
+                print("drive forward")
+                self.motor.motor_forward([duty])
+            old_tick_right = tick
+ 

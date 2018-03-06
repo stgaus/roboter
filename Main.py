@@ -2,6 +2,7 @@ from animalType import AnimalType
 from robot import Robot
 import argparse
 import sys
+from objectDetection import ObjectDetection
 
 def hunting_animal(animalType):
     robot = Robot()

@@ -3,11 +3,11 @@ import time
 
 class Greifer():
 
-##  M3_1 = [GPIO 1]
-##  M3_2 = [GPIO 2]
-##  M3_3 = [GPIO 3]
+  M1_1 = 12
+  M1_2 = 6
+  M1_3 = 5
 
-##  servo = [GPIO 4]
+  servo = 4
   pi = None
 
   def __init__(self):
@@ -42,10 +42,11 @@ class Greifer():
 
     if position == "up":
       while time.time() < t_end:
-        self.pi.set_servo_pulsewidth(self.servo, 1500)
+        self.pi.set_servo_pulsewidth(self.servo, 600)
         time.sleep(1)
-        self.pi.stop()
     elif position == "down":
-      self.pi.set_servo_pulsewidth(self.servo, 1000)
-      time.sleep(1)
-      self.pi.stop()
+      while time.time() < t_end:
+        self.pi.set_servo_pulsewidth(self.servo, 1400)
+        time.sleep(1)
+
+  #irgendwo muss man noch self.pi.stop() aufrufen...

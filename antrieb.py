@@ -4,12 +4,13 @@ import time
 class Antrieb():
 
   pi = None
-  M1_1 = 17
-  M1_2 = 27
-  M1_3 = 18
-#    M2_1 = [GPIO 4]
-#    M2_2 = [GPIO 5]
-#    M2_3 = [GPIO 6]
+  M1_1 = 18
+  M1_2 = 17
+  M1_3 = 27
+  
+  M2_1 = 19
+  M2_2 = 16
+  M2_3 = 26
   frequency = 0
 
   def __init__(self):
@@ -72,16 +73,3 @@ class Antrieb():
     self.pi.set_PWM_dutycycle(self.M2_1, duty)
     self.pi.write(self.M2_2, 1)
     self.pi.write(self.M2_3, 0)
-
-  def motor_demo(self):
-    self.pi.set_PWM_frequency(M1_1, 1000000000)
-
-    t_end = time.time() + 5
-
-    while time.time() < t_end:
-        self.pi.set_PWM_dutycycle(M1_1, 255)
-        self.pi.write(M1_2, 0)
-        self.pi.write(M1_3, 1)
-
-    self.pi.set_PWM_dutycycle(M1_1, 0)
-    self.pi.stop()

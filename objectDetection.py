@@ -8,7 +8,7 @@ from colorScanner import ColorScanner
 from frameEditor import FrameEditor
 from animalType import AnimalType
 from animal import Animal, Frog, Tomato, Tiger, Turtle, Dino
-from Consts import consts
+from consts import Consts
 import signal
 import time
 
@@ -31,7 +31,8 @@ class ObjectDetection():
         def search_animal(self):
                 # construct the Video(webCam, path, buffer)
                 #vid = Video(True, '', 64)
-                vid = Video(False, 'test.h264', 64)
+                #vid = Video(False, 'test.h264', 64)
+                vid = Video(False, 'final_video.mp4', 64)
                 #vid = Video(False, 'test-video1.mp4', 64)
                         
                 colorScanner = ColorScanner(self.animal.minColorLimit, self.animal.maxColorLimit)
@@ -58,7 +59,7 @@ class ObjectDetection():
                                 break
 
                         frameEdit = FrameEditor(frame)
-                        frame = frameEdit.resize_frame(consts.IMG_WIDTH, consts.IMG_HEIGHT, self.animal.imageRange)
+                        frame = frameEdit.resize_frame(Consts.IMG_WIDTH, Consts.IMG_HEIGHT, self.animal.imageRange)
                         frameEdit.blur()
 
                         img_hsv = frameEdit.convert_to_HSV()
@@ -122,7 +123,7 @@ class ObjectDetection():
                 return False
 
         def is_animal_in_center(self, frame_center, rect_horizontal_center):
-                if rect_horizontal_center > (frame_center - consts.CENTER_TOLERANCE) and rect_horizontal_center < (frame_center + consts.CENTER_TOLERANCE):
+                if rect_horizontal_center > (frame_center - Consts.CENTER_TOLERANCE) and rect_horizontal_center < (frame_center + Consts.CENTER_TOLERANCE):
                         return True
                 return False
                         
