@@ -13,6 +13,7 @@ class Antrieb():
   M2_3 = 26
   frequency = 0
 
+
   def __init__(self):
     pass
 ##    self.pi = pigpio.pi()

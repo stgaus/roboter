@@ -3,6 +3,7 @@ import time
 
 class Greifer():
 
+
   M1_1 = 12
   M1_2 = 6
   M1_3 = 5

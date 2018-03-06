@@ -43,10 +43,14 @@ def greifen():
 	while time.time() < t_greifer():
 		greifer.ausfahren([duty])
 
+	greifer.stop()
+	
 	greifer.servomotor("down")
 
 	while time.time() < t_greifer():
 		greifer.einfahren([duty])
+		
+	greifer.stop()
 
 #Anschließend Funktion für Weiterfahren ausführen
 
