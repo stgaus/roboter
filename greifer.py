@@ -1,49 +1,53 @@
-import pigpio as pi
+#import pigpio 
 import time
 
-class greifer():
-  
-  pi = pigpio.pi()
+class Greifer():
+
+
+  M1_1 = 12
+  M1_2 = 6
+  M1_3 = 5
+
+  servo = 4
+  pi = None
 
   def __init__(self):
-    M3_1 = [GPIO 1]
-    M3_2 = [GPIO 2]
-    M3_3 = [GPIO 3]
-
-    servo = [GPIO 4]
+    pass
+    #pi = pigpio.pi()
     
-    pi.set_mode(M3_1, pigpio.OUTPUT)
-    pi.set_mode(M3_2, pigpio.OUTPUT)
-    pi.set_mode(M3_3, pigpio.OUTPUT)
+##    self.pi.set_mode(self.M3_1, pigpio.OUTPUT)
+##    self.pi.set_mode(self.M3_2, pigpio.OUTPUT)
+##    self.pi.set_mode(self.M3_3, pigpio.OUTPUT)
+##
+##    self.pi.set_mode(self.servo, pigpio.OUTPUT)
+##
+##    self.pi.set_PWM_frequency(self.M3_1, [frequency])
 
-    pi.set_mode(servo, pigpio.OUTPUT)
+  def ausfahren(self, duty):
+    self.pi.set_PWM_dutycycle(self.M3_1, duty)
+    self.pi.write(self.M3_2, 1)
+    self.pi.write(self.M3_3, 0)
 
-    pi.set_PWM_frequency(M3_1, [frequency])
+  def einfahren(self, duty):
+    self.pi.set_PWM_dutycycle(self.M3_1, duty)
+    self.pi.write(self.M3_2, 1)
+    self.pi.write(self.M3_3, 0)
 
-  def ausfahren(duty):
-    pi.set_PWM_dutycycle(self.M3_1, duty)
-    pi.write(self.M3_2, 1)
-    pi.write(self.M3_3, 0)
+  def stop(self):
+    self.pi.set_PWM_dutycycle(self.M3_1, 0)
+    self.pi.write(self.M3_2, 1)
+    self.pi.write(self.M3_3, 1)
 
-  def einfahren(duty):
-    pi.set_PWM_dutycycle(self.M3_1, duty)
-    pi.write(self.M3_2, 1)
-    pi.write(self.M3_3, 0)
-
-  def stop():
-    pi.set_PWM_dutycycle(self.M3_1, 0)
-    pi.write(self.M3_2, 1)
-    pi.write(self.M3_3, 1)
-
-  def servomotor(position):
+  def servomotor(self, position):
     t_end = time.time() + 3
 
-    if position == "up"
+    if position == "up":
       while time.time() < t_end:
-        pi.set_servo_pulsewidth(self.servo, 1500)
+        self.pi.set_servo_pulsewidth(self.servo, 600)
         time.sleep(1)
-        pi.stop()
-     elif position == "down"
-        pi.set_servo_pulsewidth(self.servo, 1000)
+    elif position == "down":
+      while time.time() < t_end:
+        self.pi.set_servo_pulsewidth(self.servo, 1400)
         time.sleep(1)
-        pi.stop()
+
+  #irgendwo muss man noch self.pi.stop() aufrufen...

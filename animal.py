@@ -18,7 +18,7 @@ class Frog(Animal):
     def __init__(self):
         Animal.__init__(self)
         Animal.name = "Frog"
-        Animal.minColorLimit = (28, 120, 0) #->S hoch ->Done, alt: 55
+        Animal.minColorLimit = (28, 120, 0) 
         Animal.maxColorLimit = (79, 255, 165)
         Animal.boundingRectangleSize = (0.15, 0.9) #(100, 150)
         Animal.imageRange = (0, 0.34)#in decimal percent
@@ -41,12 +41,11 @@ class Dino(Animal):
         Animal.__init__(self)
         Animal.name = "Dino"
         Animal.minColorLimit = (100, 70, 0)
-        Animal.maxColorLimit = (120, 200, 100) #->s runter ->Done alt:255        Animal.boundingRectangleSize =  (0.1, 0.7) #(70, 100)
+        Animal.maxColorLimit = (120, 200, 100)
+        Animal.boundingRectangleSize =  (0.1, 0.7) #(70, 100)
         Animal.boundingRectangleSize = (0.1, 0.7) #(100, 150)
         Animal.imageRange = (0, 0.5)#in decimal percent
         Animal.dilateAmount = 13
-        #minLimit = np.array([100, 30, 0])
-        #maxLimit = np.array([120, 255, 255])
 
 class Tomato(Animal):
 

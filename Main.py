@@ -1,8 +1,18 @@
-from objectDetection import ObjectDetection
 from animalType import AnimalType
+from robot import Robot
 import argparse
 import sys
+from objectDetection import ObjectDetection
 
+def hunting_animal(animalType):
+    robot = Robot()
+    robot.anfangsfahrt()
+    robot.looking_for_animal(animalType)
+    robot.greifen()
+    robot.weiterfahren()
+    robot.unload_animal()
+    robot.initial_state()
+    print("Done")
 
 ap = argparse.ArgumentParser()
 ap.add_argument("-a", "--animal", help="animalType")
@@ -23,8 +33,4 @@ if not animal in AnimalType.__members__:
 animalType = AnimalType[animal]
 print(animalType)
 
-od = ObjectDetection(animalType)
-od.search_animal()
-
-
-
+hunting_animal(animalType)
