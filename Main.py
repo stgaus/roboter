@@ -2,16 +2,20 @@ from animalType import AnimalType
 from robot import Robot
 import argparse
 import sys
-from objectDetection import ObjectDetection
+import time
 
 def hunting_animal(animalType):
     robot = Robot()
-    robot.anfangsfahrt()
-    robot.looking_for_animal(animalType)
-    robot.greifen()
-    robot.weiterfahren()
-    robot.unload_animal()
-    robot.initial_state()
+    #robot.stop()
+    try:
+        robot.anfangsfahrt()
+        robot.looking_for_animal(animalType)
+        robot.greifen()
+        robot.weiterfahren()
+        robot.unload_animal()
+        robot.initial_state()
+    except:
+        robot.stop()
     print("Done")
 
 ap = argparse.ArgumentParser()

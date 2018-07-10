@@ -1,4 +1,5 @@
-#import pigpio
+import pigpio
+import time
 from ir_signal import Ir_signal
 from antrieb import Antrieb
 from consts import Consts
@@ -11,47 +12,41 @@ class Infrared():
     signal_right = Ir_signal.White.value
     old_tick_right = 0
     old_tick_left = 0
-#    line_follow_left = 22
-#    line_follow_right = [GPIO 2]
+    line_follow_left = 22
+    line_follow_right = 24
     demo_counter = 0
 
     def __init__(self):
-##        self.pi = pigpio.pi()
+        self.pi = pigpio.pi()
         self.motor = Antrieb()    
     
-##    self.pi.set_mode(self.line_follow_left, pigpio.INPUT)
-##    self.pi.set_mode(self.line_follow_right, pigpio.INPUT)
+        self.pi.set_mode(self.line_follow_left, pigpio.INPUT)
+        self.pi.set_mode(self.line_follow_right, pigpio.INPUT)
 ##    self.pi.setwarnings(False)
 
     def irsensors(self):
-        #irL = self.pi.read(self.line_follow_left)
-        #irR = self.pi.read(self.line_follow_right)
-        irL = 1
-        irR = 1
+        irL = self.pi.read(self.line_follow_left)
+        irR = self.pi.read(self.line_follow_right)
 
         none = "none"
         both = "both"
         left = "left"
         right = "right"
 
-        self.demo_counter += 1
-        if self.demo_counter >= 100:
-            return both
-
         #Wenn beide Sensoren die Linie nicht sehen
-        if(irL == 1 and irR == 1):
+        if(irL == Ir_signal.White.value and irR == Ir_signal.White.value):
           return none
 
         #Wenn das Ziel erreicht ist
-        elif(irL == 0 and irR == 0):
+        elif(irL == Ir_signal.Black.value and irR == Ir_signal.Black.value):
           return both
 
         #Wenn nur der linke Sensor die Linie sieht  
-        elif(irL == 0 and irR == 1):
+        elif(irL == Ir_signal.Black.value and irR == Ir_signal.White.value):
           return left
 
         #Wenn nur der rechte Sensor die Linie sieht  
-        elif(irL == 1 and irR == 0):
+        elif(irL == Ir_signal.White.value and irR == Ir_signal.Black.value):
           return right
 
     def ir_signal_changed_left(self, gpio, level, tick):
@@ -60,15 +55,15 @@ class Infrared():
             if level == Ir_signal.Black.value:
                 self.signal_left = Ir_signal.Black.value
                 if self.signal_right == Ir_signal.Black.value:
-                    print("reached target")
+                    print("callback reached target")
                 else:
                     print("drive to left")
-                    self.motor.motor_right([duty])
+                    self.motor.motor_right(10000, 750000)
 
             elif level == Ir_signal.White.value:
                 self.signal_left = Ir_signal.White.value
                 print("drive forward")
-                self.motor.motor_forward([duty])
+                self.motor.motor_forward(10000, 750000)
             old_tick_left = tick            
 
     def ir_signal_changed_right(self, gpio, level, tick):
@@ -77,14 +72,18 @@ class Infrared():
             if level == Ir_signal.Black.value:
                 self.signal_right = Ir_signal.Black.value
                 if self.signal_left == Ir_signal.Black.value:
-                    print("reached target")
+                    print("callback reached target")
                 else:
                     print("drive to right")
-                    self.motor.motor_left([duty])
+                    self.motor.motor_left(10000, 750000)
 
             elif level == Ir_signal.White.value:
                 self.signal_right= Ir_signal.White.value
                 print("drive forward")
-                self.motor.motor_forward([duty])
+                self.motor.motor_forward(10000, 750000)
             old_tick_right = tick
+            print(tick)
+
+    def stop():
+        self.pi.stop()
  
