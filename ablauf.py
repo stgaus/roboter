@@ -13,7 +13,7 @@
 #Fahren bis beide Infrarot-Sensoren die schwarze Linie gleichzeitig sehen --> Ziel erreicht
 #Anschließend noch ein bisschen weiterfahren (Entweder über Sekunden oder wenn die schwarze Linie wieder gesehen wird)
 #Greifmechanismus wieder ausfahren und mit einem zweiten Schieber das Tier von der Plattform schieben
-
+#TestTest
 ##############################
 
 #Funktion für die Anfangsfahrt
