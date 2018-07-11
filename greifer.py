@@ -30,20 +30,22 @@ class Greifer():
     self.pi.write(self.M1_3, 1)
 
   def einfahren(self, duty):
-    if not self.pi.connected:
+    if self.pi is None or not self.pi.connected:
       self.pi = pigpio.pi()
     self.pi.set_PWM_dutycycle(self.M1_1, duty)
     self.pi.write(self.M1_2, 1)
     self.pi.write(self.M1_3, 0)
 
   def stop(self):
+    if self.pi is None or not self.pi.connected:
+      self.pi = pigpio.pi()
     self.pi.set_PWM_dutycycle(self.M1_1, 0)
     self.pi.set_servo_pulsewidth(self.servo, 0)
     self.pi.stop()    
 
   def servomotor(self, position):
     t_end = time.time() + 2
-    if not self.pi.connected:
+    if self.pi is None or not self.pi.connected:
       self.pi = pigpio.pi()
 
     if position == "up":
@@ -55,4 +57,4 @@ class Greifer():
         self.pi.set_servo_pulsewidth(self.servo, 1400)
         time.sleep(1)
 
-  #irgendwo muss man noch self.pi.stop() aufrufen...
+

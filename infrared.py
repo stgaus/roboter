@@ -12,8 +12,8 @@ class Infrared():
     signal_right = Ir_signal.White.value
     old_tick_right = 0
     old_tick_left = 0
-    line_follow_left = 22
-    line_follow_right = 24
+    line_follow_left = Consts.GPIO_IR_SENSOR_LEFT
+    line_follow_right = Consts.GPIO_IR_SENSOR_RIGHT
     demo_counter = 0
 
     def __init__(self):
@@ -25,6 +25,8 @@ class Infrared():
 ##    self.pi.setwarnings(False)
 
     def irsensors(self):
+        if self.pi is None or not self.pi.connected:
+          self.pi = pigpio.pi()
         irL = self.pi.read(self.line_follow_left)
         irR = self.pi.read(self.line_follow_right)
 
@@ -58,12 +60,14 @@ class Infrared():
                     print("callback reached target")
                 else:
                     print("drive to left")
-                    self.motor.motor_right(10000, 750000)
+                    self.motor.motor_right(Consts.MOTOR_WHEELS_FREQUENCY_STEER
+                                           ,Consts.MOTOR_WHEELS_DUTYCYLCE_STEER)
 
             elif level == Ir_signal.White.value:
                 self.signal_left = Ir_signal.White.value
                 print("drive forward")
-                self.motor.motor_forward(10000, 750000)
+                self.motor.motor_forward(Consts.MOTOR_WHEELS_FREQUENCY
+                                         ,Consts.MOTOR_WHEELS_DUTYCYLCE)
             old_tick_left = tick            
 
     def ir_signal_changed_right(self, gpio, level, tick):
@@ -75,12 +79,14 @@ class Infrared():
                     print("callback reached target")
                 else:
                     print("drive to right")
-                    self.motor.motor_left(10000, 750000)
+                    self.motor.motor_left(Consts.MOTOR_WHEELS_FREQUENCY_STEER
+                                          ,Consts.MOTOR_WHEELS_DUTYCYLCE_STEER)
 
             elif level == Ir_signal.White.value:
                 self.signal_right= Ir_signal.White.value
                 print("drive forward")
-                self.motor.motor_forward(10000, 750000)
+                self.motor.motor_forward(Consts.MOTOR_WHEELS_FREQUENCY
+                                         ,Consts.MOTOR_WHEELS_DUTYCYLCE)
             old_tick_right = tick
             print(tick)
 
