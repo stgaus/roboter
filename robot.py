@@ -27,7 +27,7 @@ class Robot():
         self.cb1 = self.pi.callback(22, pigpio.EITHER_EDGE, self.ir.ir_signal_changed_left)
         self.cb2 = self.pi.callback(24, pigpio.EITHER_EDGE, self.ir.ir_signal_changed_right)
         print("initialize ir_callback")
-        self.motor.motor_forward(10000, 750000)
+        self.motor.motor_forward(Consts.MOTOR_WHEELS_FREQUENCY, Consts.MOTOR_WHEELS_DUTYCYLCE)
         print("drive forward")
         #t_time = time.time() + 10
         #while time.time() < t_time:
