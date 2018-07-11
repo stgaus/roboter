@@ -27,7 +27,7 @@ class Antrieb():
 ##    self.pi.set_PWM_frequency(self.M2_1, self.frequency)
 
   def motor_forward(self, frequency, duty):
-    if not self.pi.connected:
+    if self.pi is None or not self.pi.connected:
       self.pi = pigpio.pi()
     #self.pi.set_PWM_dutycycle(self.M1_1, duty)
     self.pi.hardware_PWM(self.M1_1, frequency, duty)
@@ -40,6 +40,8 @@ class Antrieb():
     self.pi.write(self.M2_3, 1)
 
   def motor_backward(self, frequency, duty):
+    if self.pi is None or not self.pi.connected:
+      self.pi = pigpio.pi()
     #self.pi.set_PWM_dutycycle(self.M1_1, duty)
     self.pi.hardware_PWM(self.M1_1, frequency, duty)
     self.pi.write(self.M1_2, 1)
@@ -51,8 +53,8 @@ class Antrieb():
     self.pi.write(self.M2_3, 0)
 
   def motor_stop(self):
-    if(self.pi == None):
-        return
+    if self.pi is None or not self.pi.connected:
+      self.pi = pigpio.pi()
     self.pi.set_PWM_dutycycle(self.M1_1, 0)
     self.pi.hardware_PWM(self.M1_1, 0, 0)
     self.pi.write(self.M1_2, 1)
@@ -66,6 +68,8 @@ class Antrieb():
     self.pi.stop()
 
   def motor_right(self, frequency, duty):
+    if self.pi is None or not self.pi.connected:
+      self.pi = pigpio.pi()
     #self.pi.set_PWM_dutycycle(self.M1_1, duty)
     self.pi.hardware_PWM(self.M1_1, frequency, duty)
     self.pi.write(self.M1_2, 0)
@@ -76,6 +80,8 @@ class Antrieb():
     self.pi.write(self.M2_3, 0)
 
   def motor_left(self, frequency, duty):
+    if self.pi is None or not self.pi.connected:
+      self.pi = pigpio.pi()
     self.pi.set_PWM_dutycycle(self.M1_1, 0)
     self.pi.write(self.M1_2, 0)
     self.pi.write(self.M1_3, 0)

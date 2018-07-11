@@ -86,7 +86,10 @@ class ObjectDetection():
                                         if self.seen_animal_counter > Consts.SEEN_ANIMAL_COUNTER:
                                                 return (1, camera.get(1))
                                 if self.is_animal_in_center(frameEdit.center[0], (x + w/2)):
-                                        return (2, camera.get(1))
+                                        frame_no = camera.get(1)
+                                        camera.release()
+                                        cv2.destroyAllWindows()
+                                        return (2, frame_no)
                         
                         frameEdit.draw_center_line()
                         
@@ -101,7 +104,7 @@ class ObjectDetection():
 
                 # cleanup the camera and close any open windows
                 camera.release()
-                #cv2.destroyAllWindows()
+                cv2.destroyAllWindows()
                 
                 return (-1, camera.get(1))
 
