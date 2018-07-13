@@ -60,12 +60,20 @@ class Infrared():
                     print("callback reached target")
                 else:
                     print("drive to left")
+##                    self.motor.motor_stop()
+##                    t_time = time.time() + 0.4
+##                    while time.time() < t_time:
+##                        i="zeit vergeht"
                     self.motor.motor_right(Consts.MOTOR_WHEELS_FREQUENCY_STEER
                                            ,Consts.MOTOR_WHEELS_DUTYCYLCE_STEER)
 
             elif level == Ir_signal.White.value:
                 self.signal_left = Ir_signal.White.value
                 print("drive forward")
+##                self.motor.motor_stop()
+##                t_time = time.time() + 0.4
+##                while time.time() < t_time:
+##                    i="zeit vergeht"
                 self.motor.motor_forward(Consts.MOTOR_WHEELS_FREQUENCY
                                          ,Consts.MOTOR_WHEELS_DUTYCYLCE)
             old_tick_left = tick            
@@ -79,12 +87,20 @@ class Infrared():
                     print("callback reached target")
                 else:
                     print("drive to right")
+##                    self.motor.motor_stop()
+##                    t_time = time.time() + 0.4
+##                    while time.time() < t_time:
+##                        i="zeit vergeht"
                     self.motor.motor_left(Consts.MOTOR_WHEELS_FREQUENCY_STEER
                                           ,Consts.MOTOR_WHEELS_DUTYCYLCE_STEER)
 
             elif level == Ir_signal.White.value:
                 self.signal_right= Ir_signal.White.value
                 print("drive forward")
+##                self.motor.motor_stop()
+##                t_time = time.time() + 0.4
+##                while time.time() < t_time:
+##                    i="zeit vergeht"
                 self.motor.motor_forward(Consts.MOTOR_WHEELS_FREQUENCY
                                          ,Consts.MOTOR_WHEELS_DUTYCYLCE)
             old_tick_right = tick

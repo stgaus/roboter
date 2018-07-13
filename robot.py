@@ -34,14 +34,18 @@ class Robot():
         self.motor.motor_forward(Consts.MOTOR_WHEELS_FREQUENCY
                                  ,Consts.MOTOR_WHEELS_DUTYCYLCE)
         print("drive forward")
-        #t_time = time.time() + 10
-        #while time.time() < t_time:
-        #    i="zeit vergeht"
-        #    ir_sensors = self.ir.irsensors()
-        #    #print(ir_sensors)
-        #self.irCallback_Left.cancel()
-        #self.irCallback_Right.cancel()
-        #self.motor.motor_stop()
+        t_time = time.time() + 7
+        while time.time() < t_time:
+            i="zeit vergeht"
+            ir_sensors = self.ir.irsensors()
+            print(ir_sensors)
+        self.irCallback_Left.cancel()
+        self.irCallback_Right.cancel()
+        self.motor.motor_stop()
+
+    def makeVideo(self):
+        od = ObjectDetection(animalType)
+        od.make_video()
 
     def looking_for_animal(self, animalType):
         returnValue = 0
@@ -111,6 +115,7 @@ class Robot():
         print("initialize ir_callback")
         self.motor.motor_forward(Consts.MOTOR_WHEELS_FREQUENCY
                                  ,Consts.MOTOR_WHEELS_DUTYCYLCE)
+        
         print("drive forward")
         while True:
             ir_sensors = self.ir.irsensors()
