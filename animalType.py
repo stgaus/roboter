@@ -6,3 +6,4 @@ class AnimalType(Enum):
     TURTLE = 3
     FROG = 4
     TIGER = 5
+    SHELF = 6

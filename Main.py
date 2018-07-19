@@ -7,15 +7,17 @@ import time
 def hunting_animal(animalType):
     robot = Robot()
     #robot.stop()
-    try:
-        robot.anfangsfahrt()
-        robot.looking_for_animal(animalType)
-        robot.greifen()
-        robot.weiterfahren()
-        robot.unload_animal()
-        robot.initial_state()
-    except:
-        robot.stop()
+    #try:
+    robot.anfangsfahrt()
+    robot.looking_for_animal(animalType)
+    robot.greifen()
+    robot.weiterfahren()
+    robot.unload_animal()
+    robot.initial_state()
+##    except Exception as e:
+##        print(e)
+##        print(sys.exc_info())
+##        robot.stop()
     print("Done")
 
 ap = argparse.ArgumentParser()

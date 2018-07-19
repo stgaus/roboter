@@ -1,4 +1,4 @@
-import pigpio
+#import pigpio
 import time
 from ir_signal import Ir_signal
 from antrieb import Antrieb
