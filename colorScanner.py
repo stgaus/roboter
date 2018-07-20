@@ -25,7 +25,7 @@ class ColorScanner():
     def find_contours(self, mask):
         if mask is not None:
             self.contours = cv2.findContours(mask.copy(), cv2.RETR_EXTERNAL,
-                                             cv2.CHAIN_APPROX_TC89_KCOS)[-2]
+                                             cv2.CHAIN_APPROX_SIMPLE)[-2]
         return self.contours
 
     def find_if_close(self, cnt1,cnt2):
@@ -74,10 +74,9 @@ class ColorScanner():
 
     def get_max_contours(self):
         # get largest four contour area
-        cnts = None
-        conts = sorted(self.contours, key = cv2.contourArea, reverse = True)[:3]
+        cnts = self.get_max_contour()
+        conts = sorted(self.contours, key = cv2.contourArea, reverse = True)[:2]
         self.contours = conts
-        #cnts = self.unify_contours()
         pos = None#np.array((0))
         i=0
         while i<len(conts):
@@ -102,6 +101,5 @@ class ColorScanner():
             else:
                 cnts = np.vstack(conts[i] for i in pos)
         return cnts
-
             
 

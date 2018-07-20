@@ -21,6 +21,9 @@ class ObjectDetection():
 
         animal = None
         seen_animal_counter = 0
+        animal_in_center = False
+        cut_right = None
+        cut_left = None
 
         def __init__(self, animalType):
                 if animalType == AnimalType.DINO:
@@ -34,25 +37,17 @@ class ObjectDetection():
                 if animalType == AnimalType.TIGER:
                         self.animal = Tiger()
 
-        def search_animal(self, frame_no, animal_on_screen, motor):
-                returnValue = 0
+        def search_animal(self, frame_no, animal_on_screen, motor, camera, robot):
+                found_animal = False
                 # construct the Video(webCam, path, buffer)
-                vid = Video(True, '', 64)
-                #vid = Video(False, 'final_video.mp4', 64)
-                #vid = Video(False, 'test.h264', 64)
-                #vid = Video(False, 'gutesVid2.h264', 64)
-                #vid = Video(False, 'test-video1.mp4', 64)
+                #vid = Video(True, '', 64)
+                vid = Video(False, 'FinalVid2.h264', 64)
                         
                 colorScanner = ColorScanner(self.animal.minColorLimit, self.animal.maxColorLimit)
-
+                fps = FPS().start()
                 # if a video path was not supplied, grab the reference to the webcam
                 if vid.webCam:
-                        camera = VideoStream(0, False, (640, 480))#usePiCamera=-1 > 0).start()
-                        camera.start()
-                        #time.sleep(2.0)
-                        #camera = WebcamVideoStream(src=0).start()
-                        #camera = cv2.VideoCapture(0)
-                        fps = FPS().start()
+                        camera.start()                        
 
                 # otherwise, grab a reference to the video file
                 else:
@@ -61,15 +56,12 @@ class ObjectDetection():
                 # Start time
                 while True:
                         # grab the current frame                        
-                        #(grabbed, frame) = camera.read()
-                        frame = camera.read()
-                        (rows,cols,shit) = frame.shape
-                        M = cv2.getRotationMatrix2D((cols/2,rows/2), 270, 1)
-                        dst = cv2.warpAffine(frame, M, (cols, rows))
-                        frame = dst
-                        #if camera.get(1) < frame_no:
-                        #        continue
-                        #simulates slow_down_motor:
+                        (grabbed, frame) = camera.read()
+                        #frame = camera.read()
+                        #(rows,cols,shit) = frame.shape
+                        #M = cv2.getRotationMatrix2D((cols/2,rows/2), 270, 1)
+                        #dst = cv2.warpAffine(frame, M, (cols, rows))
+                        #frame = dst
                         
                         # if we are viewing a video and we did not grab a frame,
                         # then we have reached the end of the video
@@ -77,7 +69,7 @@ class ObjectDetection():
                         #        return (-1, camera.get(1))
 
                         frameEdit = FrameEditor(frame)
-                        frame = frameEdit.resize_frame(Consts.IMG_WIDTH, Consts.IMG_HEIGHT, self.animal.imageRange)
+                        frame = frameEdit.resize_frame(Consts.IMG_WIDTH, Consts.IMG_HEIGHT, self.animal.imageRange, self.cut_right, self.cut_left)
                         frameEdit.blur()
 
                         img_hsv = frameEdit.convert_to_HSV()
@@ -89,47 +81,72 @@ class ObjectDetection():
 
                         contours = colorScanner.find_contours(mask)
                         
-                        #cont = colorScanner.unify_contours()
-                        cont = colorScanner.get_max_contour()
-                        #cont = colorScanner.get_max_contours()
+                        if animal_on_screen == True:
+                                cont = colorScanner.get_max_contours()
+                                #cont = colorScanner.unify_contours()
+                        else:
+                                cont = colorScanner.get_max_contour()
+                        
 
                         #drawContours(image, contours, contourIdx ->| if negative, all contours are drawn |, color, thickness)
                         cv2.drawContours(frameEdit.frame, cont, -1, (255, 255, 0), 2)
-
                         x, y, w, h = cv2.boundingRect(cont)
                         
                         # draw a green rectangle to visualize the bounding rect
                         cv2.rectangle(frameEdit.frame, (x, y), (x+w, y+h), (0, 255, 0), 2)
-                        
-                        if self.is_animal_on_screen(frameEdit.width, frameEdit.height, w, h):
-                                if animal_on_screen == False:                                        
-                                        self.seen_animal_counter += 1
-                                        if self.seen_animal_counter > Consts.SEEN_ANIMAL_COUNTER:
-                                                print("animal on screen")
-                                                animal_on_screen = True
-                                                #motor.motor_stop()
-                                                #t_drive = time.time() + 0.5
-                                                #while time.time() < t_drive:
-                                                #    vau="vau"
-                                                    #motor.motor_stop()
-                                                #t_drive = time.time() + 0.5
-                                                #while time.time() < t_drive:
-                                                #    motor.motor_forward(Consts.MOTOR_WHEELS_FREQUENCY
-                                                #                         ,Consts.MOTOR_WHEELS_DUTYCYLCE)
-                                                #motor.motor_stop()
-                                                #camera.stop()
-                                                #cv2.destroyAllWindows()
-                                                #return (2, 0)#camera.get(1))
-                                if self.is_animal_in_center(frameEdit.center[0], (x + w/2)):
-                                        #frame_no = camera.get(1)
-                                        print("animal in center")
-                                        camera.stop()
+                        cv2.imwrite("last_image.png", frameEdit.frame)
+                        if self.animal_in_center == False:
+                                if self.is_animal_on_screen(frameEdit.width, frameEdit.height, w, h):
+                                        if animal_on_screen == False:                                        
+                                                self.seen_animal_counter += 1
+                                                if self.seen_animal_counter > Consts.SEEN_ANIMAL_COUNTER:
+                                                        print("animal on screen")
+                                                        animal_on_screen = True
+                                                        time.sleep(0.5)
+                                                        #motor.motor_stop_light()
+                                                        #robot.irCallback_Left.cancel()
+                                                        #robot.irCallback_Right.cancel()
+                                                        self.animal_in_center = True
+                        else:
+                                #frameEdit.frame = frameEdit.frame[0:frameEdit.height, 0:370]  
+                                self.cut_right = 400
+                                self.cut_left = 5
+                                if self.is_animal_really_in_center(frameEdit.center[0], (x + w/2)):
+                                        print("really in center")  
                                         cv2.destroyAllWindows()
-                                        return (2, frame_no)
+                                        #camera.stop()
+                                        camera.release()
+                                        return (True, frame_no)                                                
+                                elif self.is_animal_on_left(frameEdit.center[0], (x + w/2)):
+                                        print("animal left - drive back")
+                                        t_drive = time.time() + 0.1
+                                        while time.time() < t_drive:
+                                                test=1
+                                                #motor.motor_backward(Consts.MOTOR_WHEELS_FREQUENCY_CORRECT
+                                                #                        ,Consts.MOTOR_WHEELS_DUTYCYLCE_CORRECT)
+                                        #motor.motor_stop_light()
+                                elif self.is_animal_on_right(frameEdit.center[0], (x + w/2)):
+                                        print("animal right - drive forward")
+                                        t_drive = time.time() + 0.1
+                                        while time.time() < t_drive:
+                                                test=1
+                                                #motor.motor_forward(Consts.MOTOR_WHEELS_FREQUENCY_CORRECT
+                                                #        ,Consts.MOTOR_WHEELS_DUTYCYLCE_CORRECT)
+                                        #motor.motor_stop_light()
+                                else:
+                                        print("not on screen - drive back")
+                                        t_drive = time.time() + 0.3
+                                        while time.time() < t_drive:
+                                                test=1
+                                                #motor.motor_backward(Consts.MOTOR_WHEELS_FREQUENCY_CORRECT
+                                                #        ,Consts.MOTOR_WHEELS_DUTYCYLCE_CORRECT)
+                                        #motor.motor_stop_light()
+                                      
+
                         
                         #frameEdit.draw_center_line()
-                        frameEdit.draw_check_line(int(round((frameEdit.center[0]*(6/10)+20), 0)))
-                        frameEdit.draw_check_line(int(round((frameEdit.center[0]*(6/10)-20), 0)))
+                        frameEdit.draw_check_line(frameEdit.center[0] + 7)
+                        frameEdit.draw_check_line(frameEdit.center[0] - 7)
                         
                         cv2.imshow("Frame", frameEdit.frame)
                         cv2.imshow("Tresh", frame)
@@ -145,11 +162,11 @@ class ObjectDetection():
                 fps.stop()
                 print("[INFO] approx. FPS: {:.2f}".format(fps.fps()))
 
-                camera.stop()
-                #camera.release()
+                #camera.stop()
+                camera.release()
                 cv2.destroyAllWindows()
                 
-                return (-1, 0)#camera.get(1))
+                return (False, 0)
 
 
         def is_animal_on_screen(self, frame_width, frame_height, rect_w, rect_h):
@@ -158,8 +175,22 @@ class ObjectDetection():
                 return False
 
         def is_animal_in_center(self, frame_center, rect_horizontal_center):
-                if rect_horizontal_center > ((frame_center*(6/10)) - Consts.CENTER_TOLERANCE) and rect_horizontal_center < ((frame_center*(6/10)) + Consts.CENTER_TOLERANCE):
+                if rect_horizontal_center > (frame_center - Consts.CENTER_TOLERANCE) and rect_horizontal_center < (frame_center + Consts.CENTER_TOLERANCE):
                         return True
                 return False
-                        
+
+        def is_animal_on_left(self, frame_center, rect_horizontal_center):
+                if rect_horizontal_center < (frame_center - 7):
+                        return True
+                return False
+
+        def is_animal_on_right(self, frame_center, rect_horizontal_center):
+                if rect_horizontal_center > (frame_center + 7):
+                        return True
+                return False
+
+        def is_animal_really_in_center(self, frame_center, rect_horizontal_center):
+                if rect_horizontal_center > (frame_center - 7) and rect_horizontal_center < (frame_center + 7):
+                        return True
+                return False        
 
