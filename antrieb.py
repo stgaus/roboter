@@ -13,7 +13,8 @@ class Antrieb():
   M2_2 = 16
   M2_3 = 26
 
-  drive_slow = False
+  drive_slow1 = False
+  drive_end = False
   
   def __init__(self):
     self.pi = pigpio.pi()
@@ -93,6 +94,20 @@ class Antrieb():
 
     self.pi.stop()
 
+
+  def motor_stop_light(self):
+    if self.pi is None or not self.pi.connected:
+      self.pi = pigpio.pi()
+    self.pi.set_PWM_dutycycle(self.M1_1, 0)
+    self.pi.hardware_PWM(self.M1_1, 0, 0)
+    self.pi.write(self.M1_2, 1)
+    self.pi.write(self.M1_3, 1)
+
+    self.pi.set_PWM_dutycycle(self.M2_1, 0)
+    self.pi.hardware_PWM(self.M1_1, 0, 0)
+    self.pi.write(self.M2_2, 1)
+    self.pi.write(self.M2_3, 1)
+
   def motor_right(self, frequency, duty):
     if self.pi is None or not self.pi.connected:
       self.pi = pigpio.pi()
@@ -128,4 +143,3 @@ class Antrieb():
       self.pi.hardware_PWM(self.M2_1, frequency, duty)
     self.pi.write(self.M2_2, 0)
     self.pi.write(self.M2_3, 1)
-

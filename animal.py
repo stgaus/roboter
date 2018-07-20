@@ -20,8 +20,10 @@ class Frog(Animal):
         Animal.name = "Frog"
         Animal.minColorLimit = (28, 100, 0) 
         Animal.maxColorLimit = (65, 255, 100)
-        Animal.boundingRectangleSize = (0.25, 0.75) #(100, 150)
-        Animal.imageRange = (0, 0.35)#in decimal percent
+        #Animal.minColorLimit = (28, 118, 20) 
+        #Animal.maxColorLimit = (57, 230, 100)
+        Animal.boundingRectangleSize = (0.25, 0.25) #(100, 150)
+        Animal.imageRange = (0, 150)#in decimal percent
         Animal.dilateAmount = 4
 
 class Tiger(Animal):
@@ -31,11 +33,12 @@ class Tiger(Animal):
         Animal.name = "Tiger"
         #Animal.minColorLimit = (11, 80, 70)
         #Animal.maxColorLimit = (23, 180, 130)
-        Animal.minColorLimit = (10, 50, 40)
-        Animal.maxColorLimit = (30, 200, 130)
-        Animal.boundingRectangleSize = (0.1, 0.7) #(100, 150)
-        Animal.imageRange = (0, 0.35)#in decimal percent
-        Animal.dilateAmount = 10
+        Animal.minColorLimit = (5, 75, 28)
+        Animal.maxColorLimit = (30, 225, 160)
+        Animal.boundingRectangleSize = (0.2, 0.5) #(100, 150)
+        #Animal.imageRange = (0, 0.35)#in decimal percent
+        Animal.imageRange = (0, 100)
+        Animal.dilateAmount = 8
 
 class Dino(Animal):
 
@@ -44,13 +47,15 @@ class Dino(Animal):
         Animal.name = "Dino"
         #Animal.minColorLimit = (97, 65, 0)
         #Animal.maxColorLimit = (117, 200, 100)
-        Animal.minColorLimit = (100, 28, 52)
-        Animal.maxColorLimit = (143, 169, 108)
-        #Animal.minColorLimit = (45, 45, 23)
-        #Animal.maxColorLimit = (100, 190, 100)
+        #Animal.minColorLimit = (100, 28, 52)
+        #Animal.maxColorLimit = (143, 169, 108)
+        Animal.minColorLimit = (48, 55, 20)
+        Animal.maxColorLimit = (110, 160, 100)
         #Animal.boundingRectangleSize =  (0.1, 0.7) #(70, 100)
         Animal.boundingRectangleSize = (0.15, 0.2) #(100, 150)
-        Animal.imageRange = (0, 0.35)#in decimal percent
+        #Animal.boundingRectangleSize = ()
+        Animal.imageRange = (0, 180)
+        #Animal.imageRange = (0, 0.35)#in decimal percent
         Animal.dilateAmount = 13
 
 class Tomato(Animal):
@@ -63,7 +68,7 @@ class Tomato(Animal):
         Animal.minColorLimit_second = (174, 150, 60)
         Animal.maxColorLimit_second = (184, 255, 150)
         Animal.boundingRectangleSize = (0.1, 0.2) #(85, 85)
-        Animal.imageRange = (0, 0.7)#in decimal percent
+        Animal.imageRange = (0, 180)#in decimal percent
         Animal.dilateAmount = 3
 
 
@@ -74,8 +79,8 @@ class Turtle(Animal):
         Animal.name = "Turtle"
         #Animal.minColorLimit = (6, 20, 45)
         #Animal.maxColorLimit = (30, 140, 150)
-        Animal.minColorLimit = (3, 50, 48)
-        Animal.maxColorLimit = (20, 187, 121)
+        Animal.minColorLimit = (7, 58, 30)
+        Animal.maxColorLimit = (24, 200, 166)
         #Animal.minColorLimit = (20, 40, 80)
         #Animal.maxColorLimit = (30, 150, 100)
         #Animal.minColorLimit_second = (5, 65, 65)
@@ -85,8 +90,8 @@ class Turtle(Animal):
         #Animal.maxColorLimit = (80, 95, 135)
         #Animal.minColorLimit_second = (120, 130, 175)
         #Animal.maxColorLimit_second = (180, 185, 200)
-        Animal.boundingRectangleSize = (0.2, 0.7) #(30, 30)
-        Animal.imageRange = (0, 0.4)#in decimal percent
+        Animal.boundingRectangleSize = (0.2, 0.6) #(30, 30)
+        Animal.imageRange = (0, 160)#in decimal percent
         Animal.dilateAmount = 8
 
 class Shelf(Animal):
