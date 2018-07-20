@@ -15,10 +15,16 @@ class FrameEditor():
 
     def resize_frame(self, w, h, animalRange):
         self.frame = cv2.resize(self.frame, (w, h))
-        cut_left = int (round((w/8), 0))
-        cut_right = int (round((w/8), 0))
+        if len(animalRange) > 3 and animalRange[2] is not None and animalRange[3] is not None:
+            cut_right = int (round((w*animalRange[2]), 0))
+            cut_left = int (round((w*animalRange[3]), 0))
+            cut_bottom = int (round((h*animalRange[0]), 0))
+        else:
+            cut_left = int (round((w/8), 0))
+            cut_right = int (round((w/8), 0))
+            cut_bottom = int (round((h/4), 0))
         cut_top = int (round((h*animalRange[1]), 0))
-        cut_bottom = int (round((h/16), 0))        
+                
         self.frame = self.frame[cut_top:h-cut_bottom, cut_left:w-cut_right]
         self.width = w - (cut_left + cut_right)
         self.height = h - (cut_top + cut_bottom)
@@ -54,7 +60,9 @@ class FrameEditor():
 
     def draw_center_line(self):
         self.draw_line(((self.center[0] ,0), (self.center[0], self.height)), 64)
-        
+
+    def draw_check_line(self, plus):
+        self.draw_line(((self.center[0] + plus ,0), (self.center[0] + plus, self.height)), 64)    
 
 
 
